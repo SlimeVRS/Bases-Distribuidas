@@ -8,5 +8,207 @@
             "name": "MIT",
             "url": "https://opensource.org/licenses/MIT"
         }
+    },
+    "tags": [
+        {
+            "name": "BibliotecaTEC API",
+            "description": "Development API"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Libro": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "author": {
+                        "type": "string"
+                    },
+                    "user_rating": {
+                        "type": "number"
+                    },
+                    "reviews": {
+                        "type": "number"
+                    },
+                    "year": {
+                        "type": "number"
+                    },
+                    "genre": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    }
+                }
+            },
+            "_id": {
+                "type" : "string",
+                "properties": {
+                    "name": {
+                        "type" : "string"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/libros": {
+            "post": {
+                "tags": [
+                    "LibroController"
+                ],
+                "summary": "Adds book",
+                "requestBody": {
+                    "description": "Post new book to database",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Libro"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref" : "#/components/schemas/Libro"
+                        }
+                    },
+                    "404":{
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "LibroController"
+                ],
+                "summary": "Get all books",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/schemas/Libro"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref": "#/components/schemas/Libro"
+                        }
+                    }
+                }
+            }
+        },
+        "/libros/{_id}": {
+            "get": {
+                "tags": [
+                    "LibroController"
+                ],
+                "summary": "Get book",
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "description": "book id to get",
+                    "required": true,
+                    "type": "string",
+                    "schema" : {
+                        "$ref": "#/components/schemas/_id"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/schemas/Libro"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref": "#/components/schemas/Libro"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "LibroController"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"book id to update",
+                    "required":false,
+                    "type":"string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Update book",
+                "requestBody":{
+                    "description": "Update existing book on db",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "$ref":"#/components/schemas/Libro"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    },
+                    "404": {
+                        "description":"NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "LibroController"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"book id to delete",
+                    "required": true,
+                    "type": "string",
+                    "schema": {
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Delete book",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    },
+                    "404": {
+                        "description":"NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            }
+        }
     }
 }
