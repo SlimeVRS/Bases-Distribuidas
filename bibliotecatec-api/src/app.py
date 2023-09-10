@@ -2,9 +2,24 @@ from flask import Flask, request, jsonify, Response
 from flask_pymongo import PyMongo
 from bson import json_util
 from bson.objectid import ObjectId
+from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
 app.config['MONGO_URI']='mongodb://192.168.100.36:27017/bibliotecatec'
+
+# Swagger configs
+
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.json'
+SWAGGER_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name' : "BibliotecaTEC API"
+    }
+)
+
+app.register_blueprint(SWAGGER_BLUEPRINT, url_prefix = SWAGGER_URL)
 
 mongo = PyMongo(app)
 

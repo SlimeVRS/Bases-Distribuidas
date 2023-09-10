@@ -1,0 +1,12 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "API para el proyecto programado de bases de datos avanzados",
+        "version": "1.0.0",
+        "title": "BibliotecaTEC API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    }
+}
