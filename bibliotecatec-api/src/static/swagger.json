@@ -9,6 +9,7 @@
             "url": "https://opensource.org/licenses/MIT"
         }
     },
+    "tags": [
         {
             "name": "BibliotecaTEC API",
             "description": "Development API"
