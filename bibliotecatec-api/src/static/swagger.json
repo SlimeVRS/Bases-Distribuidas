@@ -43,6 +43,40 @@
                     }
                 }
             },
+            "Usuario": {
+                "type": "object",
+                "properties":{
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "apellido": {
+                        "type": "string"
+                    },
+                    "identificacion": {
+                        "type": "string"
+                    },
+
+                    "morosidad": {
+                        "type": "string"
+                    },
+
+                    "rol": {
+                        "type": "string"
+                    },
+
+                    "alquilerLibro": {
+                        "type": "string"
+                    },
+
+                    "genero": {
+                        "type": "string"
+                    },
+
+                    "correo": {
+                        "type": "string"
+                    }
+                }
+            },
             "_id": {
                 "type" : "string",
                 "properties": {
@@ -205,6 +239,162 @@
                         "description":"NOT FOUND",
                         "schema": {
                             "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            }
+        },
+        "/usuarios": {
+            "get" :{
+                "tags": [
+                    "UsuarioController"
+                ],
+                "summary": "Get all users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "UsuarioController"
+                ],
+                "summary": "Add new user",
+                "requestBody": {
+                    "description": "Post new user to database",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref":"#/components/schemas/Usuario"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            }
+        },
+        "/usuarios/{_id}": {
+            "get" : {
+                "tags": [
+                    "UsuarioController"
+                ],
+                "summary":"Get users",
+                "parameters": [{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"User id to get",
+                    "required": true,
+                    "type": "string",
+                    "schema": {
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "UsuarioController"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "description": "User id to update",
+                    "required": true,
+                    "type": "string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Update user",
+                "requestBody": {
+                    "description": "Update existing user on db",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref":"#/components/schemas/Usuario"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags": [
+                    "UsuarioController"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "description": "User id to delete",
+                    "required": true,
+                    "type": "string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Delete user",
+                "responses":{
+                    "200": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
                         }
                     }
                 }
