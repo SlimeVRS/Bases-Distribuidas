@@ -3,6 +3,7 @@ from flask_pymongo import PyMongo
 from bson import json_util
 from bson.objectid import ObjectId
 from flask_swagger_ui import get_swaggerui_blueprint
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['MONGO_URI']='mongodb://192.168.100.36:27017/bibliotecatec'
@@ -207,17 +208,23 @@ def get_loan(id):
     response = json_util.dumps(loan)
     return Response(response, mimetype="application/json")
 
+# Actualizar fechas de forma automatica
 @app.route('/prestamos', methods=['POST'])
 def create_loan():
     # Receiving data
     id_usuario = request.json['id_usuario'],
     id_libro = request.json['id_libro'],
-    fecha_alquiler = request.json['fecha_alquiler'],
-    fecha_devolucion = request.json['fecha_devolucion'],
     estado = request.json['estado'],
     cobro_retraso = request.json['cobro_retraso']
 
-    if id_usuario and id_libro and fecha_alquiler and fecha_devolucion and estado and cobro_retraso:
+    fecha_alquiler = datetime.now()
+    fecha_devolucion = str(fecha_alquiler + timedelta(days=15))
+
+    fecha_alquiler = str(datetime.now())
+
+    print(type(fecha_alquiler), type(fecha_devolucion))
+
+    if id_usuario and id_libro and estado and cobro_retraso:
         id = mongo.db.prestamos.insert_one({
             'id_usuario': id_usuario,
             'id_libro': id_libro,

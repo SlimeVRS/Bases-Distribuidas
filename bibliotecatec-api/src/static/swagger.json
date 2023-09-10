@@ -77,6 +77,46 @@
                     }
                 }
             },
+            "Prestamo": {
+                "type": "object",
+                "properties": {
+                    "id_usuario": {
+                        "type": "string"
+                    },
+                    "id_libro": {
+                        "type": "string"
+                    },
+                    "fecha_alquiler": {
+                        "type": "string"
+                    },
+                    "fecha_devolucion": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "cobro_retraso":{
+                        "type": "number"
+                    }
+                }
+            },
+            "NuevoPrestamo":{
+                "type": "object",
+                "properties": {
+                    "id_usuario": {
+                        "type": "string"
+                    },
+                    "id_libro": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "cobro_retraso":{
+                        "type": "number"
+                    }
+                }
+            },
             "_id": {
                 "type" : "string",
                 "properties": {
@@ -395,6 +435,162 @@
                         "description":"OK",
                         "schema":{
                             "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            }
+        },
+        "/prestamos": {
+            "get":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "summary": "Get all loans",
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            },
+            "post":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "summary":"Adds new loan",
+                "requestBody": {
+                    "description": "Post new loan to database",
+                    "required":true,
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "$ref":"#/components/schemas/NuevoPrestamo"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            }
+        },
+        "/prestamos/{_id}":{
+            "get":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "summary": "Get a loan",
+                "parameters":[{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"loan id to get",
+                    "required":true,
+                    "type":"string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            },
+            "put":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "parameters":[{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"loan id to update",
+                    "required":true,
+                    "type":"string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Update loan",
+                "requestBody":{
+                    "description": "Update existing loan on db",
+                    "required": true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/Prestamo"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "parameters":[{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"loan id to update",
+                    "required":true,
+                    "type":"string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Delete loan",
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
                         }
                     }
                 }
