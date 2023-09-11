@@ -130,7 +130,7 @@ def get_users():
 @app.route('/usuarios/<id>', methods=['GET'])
 def get_user(id):
     print(id)
-    user = mongo.db.usuarios.find_one({'_id': ObjectId(id)})
+    user = mongo.db.usuarios.find_one({'_id': id})
     response = json_util.dumps(user)
     return Response(response, mimetype="application/json")
 
@@ -176,6 +176,7 @@ def create_user():
 
 @app.route('/usuarios/<id>', methods=['PUT'])
 def update_user(id):
+    _id = request.json['_id']
     nombre = request.json['nombre']
     apellido = request.json['apellido']
     morosidad = request.json['morosidad']
@@ -185,8 +186,9 @@ def update_user(id):
     genero = request.json['genero']
     correo = request.json['correo']
 
-    if nombre and apellido and ubicacion and morosidad and rol and alquilerLibro and genero and correo:
-        mongo.db.usuarios.update_one({'_id': ObjectId(id)}, {'$set': {
+    if _id and nombre and apellido and ubicacion and morosidad and rol and alquilerLibro and genero and correo:
+        mongo.db.usuarios.update_one({'_id': id}, {'$set': {
+            '_id': _id,
             'nombre': nombre,
             'apellido': apellido,
             'morosidad': morosidad,
@@ -202,7 +204,7 @@ def update_user(id):
 @app.route('/usuarios/<id>', methods=['DELETE'])
 def delete_user(id):
     print(id)
-    mongo.db.usuarios.delete_one({'_id': ObjectId(id)})
+    mongo.db.usuarios.delete_one({'_id': id})
     response = jsonify({'message': 'User ' + id + 'was deleted successfuly'})
     return response
 
