@@ -1,0 +1,637 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "API para el proyecto programado de bases de datos avanzados",
+        "version": "1.0.0",
+        "title": "BibliotecaTEC API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "tags": [
+        {
+            "name": "BibliotecaTEC API",
+            "description": "Development API"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Libro": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "author": {
+                        "type": "string"
+                    },
+                    "user_rating": {
+                        "type": "number"
+                    },
+                    "reviews": {
+                        "type": "number"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "year": {
+                        "type": "number"
+                    },
+                    "genre": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Usuario": {
+                "type": "object",
+                "properties":{
+                    "_id": {
+                        "type": "string"
+                    },
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "apellido": {
+                        "type": "string"
+                    },
+                    "ubicacion": {
+                        "type": "string"
+                    },
+                    "morosidad": {
+                        "type": "string"
+                    },
+
+                    "rol": {
+                        "type": "string"
+                    },
+
+                    "alquilerLibro": {
+                        "type": "string"
+                    },
+
+                    "genero": {
+                        "type": "string"
+                    },
+
+                    "correo": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Prestamo": {
+                "type": "object",
+                "properties": {
+                    "id_usuario": {
+                        "type": "string"
+                    },
+                    "id_libro": {
+                        "type": "string"
+                    },
+                    "fecha_alquiler": {
+                        "type": "string"
+                    },
+                    "fecha_devolucion": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "cobro_retraso":{
+                        "type": "number"
+                    }
+                }
+            },
+            "NuevoPrestamo":{
+                "type": "object",
+                "properties": {
+                    "id_usuario": {
+                        "type": "string"
+                    },
+                    "id_libro": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "cobro_retraso":{
+                        "type": "number"
+                    }
+                }
+            },
+            "_id": {
+                "type" : "string",
+                "properties": {
+                    "name": {
+                        "type" : "string"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/libros": {
+            "post": {
+                "tags": [
+                    "LibroController"
+                ],
+                "summary": "Adds book",
+                "requestBody": {
+                    "description": "Post new book to database",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Libro"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref" : "#/components/schemas/Libro"
+                        }
+                    },
+                    "404":{
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "LibroController"
+                ],
+                "summary": "Get all books",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/schemas/Libro"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref": "#/components/schemas/Libro"
+                        }
+                    }
+                }
+            }
+        },
+        "/libros/{_id}": {
+            "get": {
+                "tags": [
+                    "LibroController"
+                ],
+                "summary": "Get book",
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "description": "book id to get",
+                    "required": true,
+                    "type": "string",
+                    "schema" : {
+                        "$ref": "#/components/schemas/_id"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/schemas/Libro"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref": "#/components/schemas/Libro"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "LibroController"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"book id to update",
+                    "required":false,
+                    "type":"string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Update book",
+                "requestBody":{
+                    "description": "Update existing book on db",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "$ref":"#/components/schemas/Libro"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    },
+                    "404": {
+                        "description":"NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "LibroController"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"book id to delete",
+                    "required": true,
+                    "type": "string",
+                    "schema": {
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Delete book",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    },
+                    "404": {
+                        "description":"NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            }
+        },
+        "/librosnombre/{name}": {
+            "get":{
+                "tags": [
+                    "LibroController"
+                ],
+                "summary": "Get book by its name",
+                "parameters": [{
+                    "name": "name",
+                    "in": "path",
+                    "description": "book name to get",
+                    "required": true,
+                    "type": "string",
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            }
+        },
+        "/usuarios": {
+            "get" :{
+                "tags": [
+                    "UsuarioController"
+                ],
+                "summary": "Get all users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "UsuarioController"
+                ],
+                "summary": "Add new user",
+                "requestBody": {
+                    "description": "Post new user to database",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref":"#/components/schemas/Usuario"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            }
+        },
+        "/usuarios/{_id}": {
+            "get" : {
+                "tags": [
+                    "UsuarioController"
+                ],
+                "summary":"Get users",
+                "parameters": [{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"User id to get",
+                    "required": true,
+                    "type": "string",
+                    "schema": {
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "UsuarioController"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "description": "User id to update",
+                    "required": true,
+                    "type": "string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Update user",
+                "requestBody": {
+                    "description": "Update existing user on db",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref":"#/components/schemas/Usuario"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags": [
+                    "UsuarioController"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "description": "User id to delete",
+                    "required": true,
+                    "type": "string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Delete user",
+                "responses":{
+                    "200": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            }
+        },
+        "/prestamos": {
+            "get":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "summary": "Get all loans",
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            },
+            "post":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "summary":"Adds new loan",
+                "requestBody": {
+                    "description": "Post new loan to database",
+                    "required":true,
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "$ref":"#/components/schemas/NuevoPrestamo"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            }
+        },
+        "/prestamos/{_id}":{
+            "get":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "summary": "Get a loan",
+                "parameters":[{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"loan id to get",
+                    "required":true,
+                    "type":"string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            },
+            "put":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "parameters":[{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"loan id to update",
+                    "required":true,
+                    "type":"string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Update loan",
+                "requestBody":{
+                    "description": "Update existing loan on db",
+                    "required": true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/Prestamo"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "parameters":[{
+                    "name": "_id",
+                    "in":"path",
+                    "description":"loan id to update",
+                    "required":true,
+                    "type":"string",
+                    "schema":{
+                        "$ref":"#/components/schemas/_id"
+                    }
+                }],
+                "summary": "Delete loan",
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Prestamo"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

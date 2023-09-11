@@ -1,0 +1,46 @@
+[
+    {
+        "_id": "2018118206",
+        "nombre": "Marco",
+        "apellido": "Rivera",
+        "ubicacion": "Cartago",
+        "morosidad": "no",
+        "rol": "estudiante",
+        "alquilerLibro": "Nacidos de la Bruma: El Imperio Final",
+        "genero": "Masculino",
+        "correo": "correo@gmail.cmo"
+    },
+    {
+        "_id": "2019118206",
+        "nombre": "Diego",
+        "apellido": "Cordero",
+        "ubicacion": "San Jose",
+        "morosidad": "no",
+        "rol": "estudiante",
+        "alquilerLibro": "Nacidos de la Bruma: El Pozo de la Ascencion",
+        "genero": "Masculino",
+        "correo": "correo@gmail.cmo"
+    },
+    {
+        "_id": "2020118206",
+        "nombre": "Jose",
+        "apellido": "Leiva",
+        "ubicacion": "Alajuela",
+        "morosidad": "si",
+        "rol": "estudiante",
+        "alquilerLibro": "Nacidos de la Bruma: Heroe de las Eras",
+        "genero": "Masculino",
+        "correo": "correo@gmail.cmo"
+    },
+    {
+        "_id": "2021118206",
+        "nombre": "Sebastian",
+        "apellido": "Mena",
+        "ubicacion": "Alajuela",
+        "morosidad": "si",
+        "rol": "estudiante",
+        "alquilerLibro": "Nacidos de la Bruma: Brazales de Duelo",
+        "genero": "Masculino",
+        "correo": "correo@gmail.cmo"
+    }
+]
