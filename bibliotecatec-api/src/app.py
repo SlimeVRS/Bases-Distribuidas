@@ -5,6 +5,13 @@ from bson.objectid import ObjectId
 from flask_swagger_ui import get_swaggerui_blueprint
 from datetime import datetime, timedelta
 
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import Table
+from reportlab.platypus import TableStyle
+from reportlab.lib import colors
+
+
 app = Flask(__name__)
 app.config['MONGO_URI']='mongodb://192.168.100.36:27017/bibliotecatec'
 
@@ -35,9 +42,15 @@ def get_books():
     return Response(response, mimetype='application/json')
 
 @app.route('/libros/<id>', methods=['GET'])
-def get_book(id):
+def get_book_by_id(id):
     print(id)
     book = mongo.db.libros.find_one({'_id': ObjectId(id)})
+    response = json_util.dumps(book)
+    return Response(response, mimetype="application/json")
+
+@app.route('/librosnombre/<name>', methods=['GET'])
+def get_book_by_name(name):
+    book = mongo.db.libros.find({'name': name})
     response = json_util.dumps(book)
     return Response(response, mimetype="application/json")
 
@@ -124,20 +137,20 @@ def get_user(id):
 @app.route('/usuarios', methods=['POST'])
 def create_user():
     # Receiving data
+    _id = request.json['_id']
     nombre = request.json['nombre']
     apellido = request.json['apellido']
-    identificacion = request.json['identificacion']
     morosidad = request.json['morosidad']
     rol = request.json['rol']
     alquilerLibro = request.json['alquilerLibro']
     genero = request.json['genero']
     correo = request.json['correo']
 
-    if nombre and apellido and identificacion and morosidad and rol and alquilerLibro and genero and correo:
+    if _id and nombre and apellido and morosidad and rol and alquilerLibro and genero and correo:
         id = mongo.db.usuarios.insert_one({
+            '_id': _id,
             'nombre': nombre,
             'apellido': apellido,
-            'identificacion': identificacion,
             'morosidad': morosidad,
             'rol': rol,
             'alquilerLibro': alquilerLibro,
@@ -148,7 +161,6 @@ def create_user():
             '_id' : str(id),
             'nombre': nombre,
             'apellido': apellido,
-            'identificacion': identificacion,
             'morosidad': morosidad,
             'rol': rol,
             'alquilerLibro': alquilerLibro,
@@ -163,18 +175,16 @@ def create_user():
 def update_user(id):
     nombre = request.json['nombre']
     apellido = request.json['apellido']
-    identificacion = request.json['identificacion']
     morosidad = request.json['morosidad']
     rol = request.json['rol']
     alquilerLibro = request.json['alquilerLibro']
     genero = request.json['genero']
     correo = request.json['correo']
 
-    if nombre and apellido and identificacion and morosidad and rol and alquilerLibro and genero and correo:
+    if nombre and apellido and morosidad and rol and alquilerLibro and genero and correo:
         mongo.db.usuarios.update_one({'_id': ObjectId(id)}, {'$set': {
             'nombre': nombre,
             'apellido': apellido,
-            'identificacion': identificacion,
             'morosidad': morosidad,
             'rol': rol,
             'alquilerLibro': alquilerLibro,
@@ -208,7 +218,70 @@ def get_loan(id):
     response = json_util.dumps(loan)
     return Response(response, mimetype="application/json")
 
-# Actualizar fechas de forma automatica
+@app.route('/usuariosmorosos', methods=['GET'])
+def get_defaulter_users():
+    loans = mongo.db.prestamos.find({'estado': 'atrasado'})
+    temp = loans
+    generate_pdf(temp)
+    response = json_util.dumps(loans)
+    return Response(response, mimetype='application/json')
+
+def generate_pdf(defaulters):
+    relation_defaulter = [["Carne", "Cobro"]]
+    formato = "%Y-%m-%d %H:%M:%S.%f"
+    for i in defaulters:
+        temp = []
+        fecha = datetime.strptime(i['fecha_devolucion'], formato)
+        cobro = ((datetime.now() - fecha).days // 7) * 2000
+        temp.append(i['id_usuario'])
+        temp.append(cobro)
+        relation_defaulter.append(temp)
+    
+    fileName = 'Cobros.pdf'
+    pdf = SimpleDocTemplate(
+        fileName,
+        pagesize=letter
+    )
+    
+    table = Table(relation_defaulter)
+    
+    style = TableStyle([
+        ('BACKGROUND', (0,0), (1,0), colors.green),
+        ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+
+        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+        ('FONTNAME', (0,0), (-1,0), 'Courier-Bold'),
+        ('FONTSIZE', (0,0), (-1,0), 14),
+
+        ('BOTTOMPADDING', (0,0), (-1,0), 12),
+
+        ('BACKGROUND', (0,1), (-1,-1), colors.beige),      
+    ])
+    table.setStyle(style)
+    rowNumb = len(relation_defaulter)
+    for i in range(1, rowNumb):
+        if i % 2 == 0:
+            bc = colors.burlywood
+        else:
+            bc = colors.beige
+        ts = TableStyle([
+            ('BACKGROUND', (0, i), (-1,i), bc)
+        ])
+        table.setStyle(ts)
+    
+    ts = TableStyle([
+        ('BOX', (0,0), (-1,-1),2,colors.black),
+        ('GRID', (0,1),(-1,-1),2,colors.black)
+    ])
+    table.setStyle(ts)
+
+
+    elems = []
+    elems.append(table)
+
+    pdf.build(elems)
+
+
 @app.route('/prestamos', methods=['POST'])
 def create_loan():
     # Receiving data

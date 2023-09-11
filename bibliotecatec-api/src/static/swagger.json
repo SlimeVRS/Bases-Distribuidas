@@ -46,16 +46,15 @@
             "Usuario": {
                 "type": "object",
                 "properties":{
+                    "_id": {
+                        "type": "string"
+                    },
                     "nombre": {
                         "type": "string"
                     },
                     "apellido": {
                         "type": "string"
                     },
-                    "identificacion": {
-                        "type": "string"
-                    },
-
                     "morosidad": {
                         "type": "string"
                     },
@@ -284,6 +283,38 @@
                 }
             }
         },
+        "/librosnombre/{name}": {
+            "get":{
+                "tags": [
+                    "LibroController"
+                ],
+                "summary": "Get book by its name",
+                "parameters": [{
+                    "name": "name",
+                    "in": "path",
+                    "description": "book name to get",
+                    "required": true,
+                    "type": "string",
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT FOUND",
+                        "schema":{
+                            "$ref":"#/components/schemas/Libro"
+                        }
+                    }
+                }
+            }
+        },
         "/usuarios": {
             "get" :{
                 "tags": [
@@ -434,6 +465,28 @@
                     "404": {
                         "description":"OK",
                         "schema":{
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            }
+        },
+        "/usuariosmorosos":{
+            "get":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "summary": "Get all defaulter users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
                             "$ref":"#/components/schemas/Usuario"
                         }
                     }

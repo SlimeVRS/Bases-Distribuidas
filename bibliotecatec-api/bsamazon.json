@@ -1,5 +1,45 @@
 [
 	{
+		"Name": "Nacidos de la Bruma: El Imperio Final",
+		"Author": "Brandon Sanderson",
+		"User Rating": 4.7,
+		"Reviews": 17350,
+		"Price": 12,
+		"Year": 2006,
+		"Genre": "Fiction",
+		"estado": "disponible"
+	},
+	{
+		"Name": "Nacidos de la Bruma: El Pozo de la Ascencion",
+		"Author": "Brandon Sanderson",
+		"User Rating": 4.7,
+		"Reviews": 17350,
+		"Price": 10,
+		"Year": 2007,
+		"Genre": "Fiction",
+		"estado": "disponible"
+	},
+	{
+		"Name": "Nacidos de la Bruma: Heroe de las Eras",
+		"Author": "Brandon Sanderson",
+		"User Rating": 4.7,
+		"Reviews": 17350,
+		"Price": 12,
+		"Year": 2008,
+		"Genre": "Fiction",
+		"estado": "disponible"
+	},
+	{
+		"Name": "Nacidos de la Bruma: Brazales de Duelo",
+		"Author": "Brandon Sanderson",
+		"User Rating": 4.7,
+		"Reviews": 17350,
+		"Price": 12,
+		"Year": 20016,
+		"Genre": "Fiction",
+		"estado": "disponible"
+	},
+	{
 		"Name": "10-Day Green Smoothie Cleanse",
 		"Author": "JJ Smith",
 		"User Rating": 4.7,

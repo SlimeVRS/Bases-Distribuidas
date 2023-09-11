@@ -1,0 +1,94 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "API para el proyecto programado de bases de datos avanzados",
+        "version": "1.0.0",
+        "title": "BibliotecaTEC API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "tags": [
+        {
+            "name": "Sistema de cobro de BibliotecaTEC API",
+            "description": "Development API"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Prestamo": {
+                "type": "object",
+                "properties": {
+                    "id_usuario": {
+                        "type": "string"
+                    },
+                    "id_libro": {
+                        "type": "string"
+                    },
+                    "fecha_alquiler": {
+                        "type": "string"
+                    },
+                    "fecha_devolucion": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "cobro_retraso":{
+                        "type": "number"
+                    }
+                }
+            },
+            "NuevoPrestamo":{
+                "type": "object",
+                "properties": {
+                    "id_usuario": {
+                        "type": "string"
+                    },
+                    "id_libro": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "cobro_retraso":{
+                        "type": "number"
+                    }
+                }
+            },
+            "_id": {
+                "type" : "string",
+                "properties": {
+                    "name": {
+                        "type" : "string"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/usuariosmorosos":{
+            "get":{
+                "tags": [
+                    "PrestamoController"
+                ],
+                "summary": "Get all defaulter users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "$ref":"#/components/schemas/Usuario"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
