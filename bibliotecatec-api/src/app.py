@@ -140,18 +140,20 @@ def create_user():
     _id = request.json['_id']
     nombre = request.json['nombre']
     apellido = request.json['apellido']
+    ubicacion = request.json['ubicacion']
     morosidad = request.json['morosidad']
     rol = request.json['rol']
     alquilerLibro = request.json['alquilerLibro']
     genero = request.json['genero']
     correo = request.json['correo']
 
-    if _id and nombre and apellido and morosidad and rol and alquilerLibro and genero and correo:
+    if _id and nombre and apellido and ubicacion and morosidad and rol and alquilerLibro and genero and correo:
         id = mongo.db.usuarios.insert_one({
             '_id': _id,
             'nombre': nombre,
             'apellido': apellido,
             'morosidad': morosidad,
+            'ubicacion': ubicacion,
             'rol': rol,
             'alquilerLibro': alquilerLibro,
             'genero': genero,
@@ -161,6 +163,7 @@ def create_user():
             '_id' : str(id),
             'nombre': nombre,
             'apellido': apellido,
+            'ubicacion': ubicacion,
             'morosidad': morosidad,
             'rol': rol,
             'alquilerLibro': alquilerLibro,
@@ -176,16 +179,18 @@ def update_user(id):
     nombre = request.json['nombre']
     apellido = request.json['apellido']
     morosidad = request.json['morosidad']
+    ubicacion = request.json['ubicacion']
     rol = request.json['rol']
     alquilerLibro = request.json['alquilerLibro']
     genero = request.json['genero']
     correo = request.json['correo']
 
-    if nombre and apellido and morosidad and rol and alquilerLibro and genero and correo:
+    if nombre and apellido and ubicacion and morosidad and rol and alquilerLibro and genero and correo:
         mongo.db.usuarios.update_one({'_id': ObjectId(id)}, {'$set': {
             'nombre': nombre,
             'apellido': apellido,
             'morosidad': morosidad,
+            'ubicacion': ubicacion,
             'rol': rol,
             'alquilerLibro': alquilerLibro,
             'genero': genero,

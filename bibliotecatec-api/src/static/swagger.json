@@ -32,6 +32,9 @@
                     "reviews": {
                         "type": "number"
                     },
+                    "price": {
+                        "type": "number"
+                    },
                     "year": {
                         "type": "number"
                     },
