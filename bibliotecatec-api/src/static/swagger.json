@@ -55,6 +55,9 @@
                     "apellido": {
                         "type": "string"
                     },
+                    "ubicacion": {
+                        "type": "string"
+                    },
                     "morosidad": {
                         "type": "string"
                     },
@@ -465,28 +468,6 @@
                     "404": {
                         "description":"OK",
                         "schema":{
-                            "$ref":"#/components/schemas/Usuario"
-                        }
-                    }
-                }
-            }
-        },
-        "/usuariosmorosos":{
-            "get":{
-                "tags": [
-                    "PrestamoController"
-                ],
-                "summary": "Get all defaulter users",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref":"#/components/schemas/Usuario"
-                        }
-                    },
-                    "404": {
-                        "description": "NOT FOUND",
-                        "schema": {
                             "$ref":"#/components/schemas/Usuario"
                         }
                     }
